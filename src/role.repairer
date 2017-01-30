@@ -40,68 +40,15 @@ var roleRepairer = {
 	    }
 
 	    if(creep.memory.building) {
-            var extensionToBuild = creep.pos.findClosestByRange(FIND_CONSTRUCTION_SITES, {
+            var structuresToRepair = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: function(object){
-                    return (object.structureType === STRUCTURE_EXTENSION);
+                    return ((object.structureType == STRUCTURE_ROAD || object.structureType == STRUCTURE_RAMPART || object.structureType == STRUCTURE_WALL) && object.hits < object.hitsMax/3);
                 }
             });
-            if (extensionToBuild) {
-                if(creep.build(extensionToBuild) == ERR_NOT_IN_RANGE) {
-                            creep.moveTo(extensionToBuild);
-                        }
-                
-            } else {
-                var rampartsToRepair = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                    filter: function(object){
-                        return (object.structureType === STRUCTURE_RAMPART && object.hits < object.hitsMax)
-                    }
-                });
-                
-                if (rampartsToRepair){
-                    if(creep.repair(roadToRepair) == ERR_NOT_IN_RANGE) {
-                            creep.moveTo(roadToRepair);
-                        }
-                } else {
-                    var roadToRepair = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                        filter: function(object){
-                            return (object.structureType === STRUCTURE_ROAD || object.structureType === STRUCTURE_WALL || object.structureType === STRUCTURE_CONTAINER) && (object.hits < object.hitsMax);
-                        } 
-                    });
-    
-                    if (roadToRepair){
-                        if(creep.repair(roadToRepair) == ERR_NOT_IN_RANGE) {
-                                creep.moveTo(roadToRepair);
-                            }
-                        // perhaps check the results again?
-        
-                    } else {
-        
-                        // nothing to repair, let's do something else?
-                        var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
-                        var dest;
-    	                try {
-    	                    dest = creep.pos.findClosestByRange(targets);
-    	                }
-    	                catch (e) {
-    	                    console.log(e);
-    	                }
-                
-                        if(dest) {
-                            if(creep.build(dest) == ERR_NOT_IN_RANGE) {
-                                creep.moveTo(dest);
-                            }
-                        } else {
-                            var structures = creep.room.find(FIND_MY_STRUCTURES, {
-                                filter: function (object) {
-                                    return object.energy < object.energyCapacity;
-                                }
-                            });
-                            if (creep.transfer(structures[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
-                                creep.moveTo(structures[0]);
-	                        }
-                        }
-                    }
-	            }
+            if(structuresToRepair) {
+                if (creep.repair(structuresToRepair) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(structuresToRepair);
+                }
             }
 	    }
 	    else {
