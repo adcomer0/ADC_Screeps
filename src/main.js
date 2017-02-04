@@ -1,6 +1,11 @@
+//var benchmark = require('benchmark');
 var RoomController = require('roomController');
+//var unitTest = require('unitTest);
 
 module.exports.loop = function () {
+    //benchmark.runBenchmarks();
+    //unitTest.runUnitTests();
+    
     if (!Memory.rooms) {
         Memory.rooms = {}
     }
