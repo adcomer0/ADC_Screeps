@@ -1,11 +1,17 @@
-//var MyRoom = require('roomComponent');
+var RoomController = require('roomController');
 
-var RoomController = function(room){
-    this.room = room;
+module.exports.loop = function () {
+    if (!Memory.rooms) {
+        Memory.rooms = {}
+    }
+    for (var index in Game.rooms) {
+        try {
+            var roomControl = Object.create(RoomController);
+            roomControl.room = Game.rooms[index];
+            roomControl.runRoutine();
+        }
+        catch (e) {
+            console.log('Room: ' + Game.rooms[index].name + ' Error: ' + e);
+        }
+    }
 }
-
-RoomController.prototype.runRoutine = function() {
-    console.log(this.room);
-}
-
-module.exports = RoomController;
