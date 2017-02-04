@@ -1,66 +1,59 @@
 //var MyBuild = require('buildComponent');
-//var MyCreep = require('creepComponent');
+var MyCreep = require('creepComponent');
 //var MyFlag = require('flagComponent');
 //var MyLink = require('linkComponent');
 var MyRoom = require('roomComponent');
-//var MyTower = require('towerComponent');
+var MyTower = require('towerComponent');
 
 var RoomController = {
     runRoutine:function() {
-        /*
-        var myRoom = Object.create(MyRoom);
-        myRoom.room = this.room;
-        var roomMemory = myRoom.getRoomMememory;
-        */
-        var economy = this.room.controller.level;
+        this.myRoom = Object.create(MyRoom);
+        this.myRoom.room = this.room;
+        this.roomMemory = this.myRoom.getRoomMemory();
+        
         //this.buildRoutine();
-        //this.creepRoutine();
+        this.creepRoutine();
         //this.flagRoutine();
         //this.linkRoutine();
         this.roomRoutine();
-        //this.towerRoutine();
+        this.towerRoutine();
     },
     /*buildRoutine:function(){
         var myBuild = Object.create(MyBuild);
-        myBuild.constructionSites = this.room.find(FIND_MY_CONSTRUCTION_SITES);
+        myBuild.constructionSites = this.roomMemory.constructionSites
         myBuild.runRoutine();
-    },
+    },*/
     creepRoutine:function(){
-        var roomCreeps = this.room.find(FIND_MY_CREEPS);
+        var roomCreeps = this.roomMemory.creeps;
         for (var index in roomCreeps) {
             var myCreep = Object.create(MyCreep);
             myCreep.creep = roomCreeps[index];
+            myCreep.parentRoom = this.room;
             myCreep.runRoutine();
         }
-    },
+    },/*
     flagRoutine:function(){
         var myFlag = Object.create(MyFlag);
-        myFlag.flags = this.room.find(FIND_FLAGS);
+        myFlag.flags = this.roomMemory.flags;
         myFlag.runRoutine();
     },
     linkRoutine:function(){
         var myLink = Object.create(MyLink);
-        myLink.links = this.room.find(FIND_MY_STRUCTURES, {
-            filter:function(){
-                return (object.structureType == STRUCTURE_LINK);
-            }
-        })
+        myLink.links = this.roomMemory.links;
         myLink.runRoutine();
     },*/
     roomRoutine:function(){
-        var myRoom = Object.create(MyRoom);
-        myRoom.room = this.room;
-        myRoom.runRoutine();
-    }/*,
+        this.myRoom.runRoutine();
+    },
     towerRoutine:function(){
-        var myTower = Object.create(MyTower);
-        myTower.towers = this.room.find(FIND_MY_STRUCTURES, {
-            filter:function(){
-                return (object.structureType == STRUCTURE_TOWER);
-            }
-        })
-        myTower.runRoutine();
-    }*/
+        var roomTowers = this.roomMemory.towers;
+        for (var index in roomTowers) {
+            var myTower = Object.create(MyTower);
+            myTower.tower = roomTowers[index];
+            myTower.parentRoom = this.room;
+            myTower.runRoutine();
+        }
+    }
 }
 
 module.exports = RoomController;
