@@ -1,3 +1,4 @@
+//TODO move these to config
 var towerMaxRange = 25;
 var rampartMaxHP = 1000000;
 var wallMaxHP = 1000000;
