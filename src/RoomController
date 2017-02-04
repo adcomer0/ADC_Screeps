@@ -6,16 +6,8 @@ var MyTowers = require('TowerController');
 var roleTowerHarvester = require('role.towerHarvester');
 
 var MyRoom = {
-    //spawns:Spawn,
-    //extensions:Extension,
-    //creeps:Creep,
-    //sources:Source,
-    //towers:Tower,
-    //links:Link,
     room:Room,
-    //roomMemory:RoomMemory,
-    //economy:number,
-    
+
     Initialize:function(roomName) {
         this.room = Game.rooms[roomName];
         if (!this.room) {
@@ -23,144 +15,18 @@ var MyRoom = {
         }
     },
     
-    /*roomEnergy:function() {
-        // All creeps will use same sources and destinations except for carriers.
-        // Carriers need to redistribute the energy, hence they need special rules.
-
-        var nrgSrc = [];
-        var nrgDest = [];
-        var carrierSrc = [];
-        var carrierDest = [];
-
-        if (this.room.storage) {
-            let totalReources = _.sum(this.room.storage.store);
-            let storageEnergy = this.room.storage.store.energy;
-            // if there's a non-empty storage, add it as a source
-            if (storageEnergy > 50) {
-                nrgSrc.push(this.room.storage);
-                carrierSrc.push(this.room.storage);
-            }
-            if( totalReources < this.room.storage.storeCapacity) {
-                nrgDest.push(this.room.storage);
-            }
-
-            // spawns
-            _.each(this.spawns, (spawn) => {
-                if (spawn.energy < spawn.energyCapacity - 50) {
-                    nrgDest.push(spawn);
-                    carrierDest.push(spawn);
-                }
-            });
-
-            // links
-            _.each(this.links, (link) => {
-                if (link) {
-                    if (link.energy > 99) {
-                        nrgSrc.push(link);
-                    }
-                    if (link.energy < link.energyCapacity) {
-                        nrgDest.push(link);
-                    }
-
-                    if (link.energy < link.energyCapacity/2) {
-                        carrierDest.push(link);
-                    }
-                }
-            });
-
-            // terminals
-            if (this.room.terminal) {
-                if (storageEnergy > this.room.storage.storeCapacity * 0.7) {
-                    if (this.room.terminal.store.energy < this.room.terminal.storeCapacity) {
-                        nrgDest.push(this.room.terminal);
-                        carrierDest.push(this.room.terminal);
-                    }
-                }
-                else if (this.room.terminal.store.energy > 0) {
-                    nrgSrc.push(this.room.terminal);
-                    carrierSrc = [this.room.terminal];
-                }
-            }
-
-            // extensions
-            _.each(this.extensions, (extension) => {
-                if (extension.energy < extension.energyCapacity) {
-                    carrierDest.push(extension);
-                }
-            });
-        }
-        else {
-            // spawns
-            _.each(this.spawns, (spawn) => {
-                if (spawn.energy < spawn.energyCapacity) {
-                    nrgDest.push(spawn);
-                }
-                if (spawn.energy > 50) {
-                    nrgSrc.push(spawn);
-                }
-
-                if (spawn. energy < 100) {
-                    carrierDest.push(spawn);
-                }
-                else if (spawn.energy > 199) {
-                    carrierSrc.push(spawn);
-                }
-            });
-
-            // extensions
-            _.each(this.extensions, (extension) => {
-                if (extension.energy < extension.energyCapacity) {
-                    carrierDest.push(extension);
-                    nrgDest.push(extension);
-                }
-                else {
-                    nrgSrc.push(extension);
-                }
-            });
-        }
-
-        // towers
-        _.each(this.towers, (tower) => {
-            if (tower.energy < (tower.energyCapacity - 100)) {
-                carrierDest.push(tower);
-            }
-        });
-
-        if (carrierDest.length === 0 && this.room.storage) {
-            carrierDest.push(this.room.storage);
-        }
-
-        return {
-            creeps: {
-                energySources: nrgSrc,
-                energyDestinations: nrgDest
-            },
-            carriers: {
-                energySources: carrierSrc,
-                energyDestinations: carrierDest
-            }
-        }
-    },*/
-    
     creepManagement:function() {
-        //let energy = this.roomEnergy();
-        //for (let idx in this.creeps) {
-            //let creep = this.creeps[idx];
-        //}
         for (let name in Game.creeps) {
             let creep = Game.creeps[name];
             try {
                 switch (creep.memory['role']) {
                     case 'harvester':
-                        //let harvester = new roleHarvester(creep, energy.creeps.energySources);
                         roleHarvester.runRoutine(creep);
                         break;
                     case 'upgrader':
-                        //let upgrader = new roleUpgrader(creep, energy.creeps.energySources);
                         roleUpgrader.runRoutine(creep);
                         break;
                     case 'builder':
-                        //let builder = new roleBuilder(creep, energy.creeps.energySources);
                         roleBuilder.runRoutine(creep);
                         break;
                     case 'repairer':
@@ -263,14 +129,14 @@ var MyRoom = {
                 }
             });
             
-        //for (var tower in towers) {
-            //try {
-                MyTowers.runRoutine(towers[0]);
-            //}
-            //catch (e) {
-            //    console.log(e);   
-        //    }
-        //}
+        for (var tower in towers) {
+            try {
+                MyTowers.runRoutine(towers[tower]);
+            }
+            catch (e) {
+                console.log(e);   
+            }
+        }
     }
 };
 
