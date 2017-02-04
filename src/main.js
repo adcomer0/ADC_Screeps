@@ -4,16 +4,14 @@ module.exports.loop = function () {
     if (!Memory.rooms) {
         Memory.rooms = {}
     }
-    
-    
-    // For each user controlled room, 
     for (var index in Game.rooms) {
         try {
-            var myRoom = Object.create(RoomController, {room:Game.rooms[index]});
-            myRoom.runRoutine();
+            var roomControl = Object.create(RoomController);
+            roomControl.room = Game.rooms[index];
+            roomControl.runRoutine();
         }
         catch (e) {
-            console.log('room: ' + Game.rooms[index].name + ' encountered a problem. Error: ' + e );
+            console.log('Room: ' + Game.rooms[index].name + ' Error: ' + e);
         }
     }
 }
