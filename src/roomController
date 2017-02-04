@@ -1,17 +1,18 @@
-var RoomController = require('roomController');
+//var MyBuild = require('buildComponent');
+//var common = require('commonExpression');
+//var config = require('config');
+//var MyCreep = require('creepComponent');
+//var MyFlag = require('flagComponent');
+//var MyLink = require('linkComponent');
+//var MyRoom = require('roomComponent');
+//var MyTower = require('towerComponent');
 
-module.exports.loop = function () {
-    if (!Memory.rooms) {
-        Memory.rooms = {}
-    }
-    for (var index in Game.rooms) {
-        try {
-            var roomControl = Object.create(RoomController);
-            roomControl.room = Game.rooms[index];
-            roomControl.runRoutine();
-        }
-        catch (e) {
-            console.log('Room: ' + Game.rooms[index].name + ' Error: ' + e);
-        }
+var RoomController = {
+    runRoutine:function() {
+        var economy = this.room.controller.level;
+        
+        
     }
 }
+
+module.exports = RoomController;
