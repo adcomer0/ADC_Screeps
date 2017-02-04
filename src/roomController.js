@@ -26,9 +26,12 @@ var RoomController = {
         myBuild.runRoutine();
     },
     creepRoutine:function(){
-        var myCreep = Object.create(MyCreep);
-        myCreep.creeps = this.room.find(FIND_MY_CREEPS);
-        myCreep.runRoutine();
+        var roomCreeps = this.room.find(FIND_MY_CREEPS);
+        for (var index in roomCreeps) {
+            var myCreep = Object.create(MyCreep);
+            myCreep.creep = roomCreeps[index];
+            myCreep.runRoutine();
+        }
     },
     flagRoutine:function(){
         var myFlag = Object.create(MyFlag);
