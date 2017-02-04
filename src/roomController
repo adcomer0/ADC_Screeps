@@ -1,0 +1,11 @@
+//var MyRoom = require('roomComponent');
+
+var RoomController = function(room){
+    this.room = room;
+}
+
+RoomController.prototype.runRoutine = function() {
+    console.log(this.room);
+}
+
+module.exports = RoomController;
