@@ -10,7 +10,7 @@ var MyTowers = {
             }
             tower.attack(hostiles[0]);
         }
-        else {
+        else if (tower.energy > tower.energyCapacity/2) {
             //ReinforceRamparts
             var ramparts = tower.pos.findInRange(FIND_STRUCTURES, maxRange, {
                 filter: function(object){
