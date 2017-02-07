@@ -1,4 +1,3 @@
-/*
 //var builder = require('builderDirective');
 //var carrier = require('carrierDirective');
 //var claimer = require('claimerDirective');
@@ -9,9 +8,17 @@
 //var upgrader = require('upgraderDirective');
 //var worker = require('workerDirective');
 
-var MyCreep = function() {
+var MyCreep = {
   //functions for each creep role  
+    runRoutine:function() {
+        console.log('unimplemented MyCreep.runRoutine()');
+    },
+    harvestEnergy:function() {
+        
+    },
+    performAction:function() {
+        
+    },
 }
 
 module.exports = MyCreep;
-*/
