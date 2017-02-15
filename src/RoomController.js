@@ -6,6 +6,7 @@ var MyTowers = require('TowerController');
 var roleTowerHarvester = require('role.towerHarvester');
 var roleClaimer = require('role.claimer');
 var roleHelpRoomTwo = require('role.helpRoomTwo');
+var roleMiner = require('role.miner');
 
 var MyRoom = {
     room:Room,
@@ -42,7 +43,10 @@ var MyRoom = {
                         break;
                     case 'helpRoomTwo':
                         roleHelpRoomTwo.runRoutine(creep);
-                        break
+                        break;
+                    case 'miner':
+                        roleMiner.runRoutine(creep);
+                        break;
                     default:
                         break;
                 }
@@ -133,11 +137,11 @@ var MyRoom = {
                             }
                         }*/
                         else {
-                            var helpRoomTwos = _.filter(Game.creeps, (creep) => creep.memory.role == 'helpRoomTwo' && creep.room.name == 'W1N7');
-                            console.log('HelpRoomTwos: ' + helpRoomTwos.length);
-                            if (helpRoomTwos.length < 4) {
-                                var newName = Game.spawns['ADC_Awesome1'].createCreep([WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'helpRoomTwo'});
-                                console.log('Spawning new HelpRoomTwo: ' + newName);
+                            var miners = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && creep.room.name == 'W1N7');
+                            console.log('Miners: ' + miners.length);
+                            if (miners.length < 4) {
+                                var newName = Game.spawns['ADC_Awesome1'].createCreep([WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'miner'});
+                                console.log('Spawning new Miner: ' + newName);
                             }
                         }
                     }
@@ -156,7 +160,7 @@ var MyRoom = {
                     var newName = Game.spawns['ADC_Awesome2'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'harvester', harvesting: true});
                     console.log('W2N7 Spawning new harvester: ' + newName);
                 } else {
-                    var newName = Game.spawns['ADC_Awesome2'].createCreep([WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'harvester', harvesting: true});
+                    var newName = Game.spawns['ADC_Awesome2'].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'harvester', harvesting: true});
                     console.log('W2N7 Spawning new harvester: ' + newName);
                 }
             }
@@ -167,7 +171,7 @@ var MyRoom = {
                     /*
                         move: economy * 2, work: economy, carry: economy 
                     */
-                    var newName = Game.spawns['ADC_Awesome2'].createCreep([WORK,WORK,CARRY,CARRY,MOVE], undefined, {role: 'upgrader', harvesting: true});
+                    var newName = Game.spawns['ADC_Awesome2'].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'upgrader', harvesting: true});
                     console.log('W2N7 Spawning new upgrader: ' + newName);
                 }
                 else {
@@ -178,7 +182,7 @@ var MyRoom = {
                     console.log('W2N7 Repairers: ' + repairers.length);
 
                     if(repairers.length < 4) {
-                        var newName = Game.spawns['ADC_Awesome2'].createCreep([WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'repairer', harvesting: true});
+                        var newName = Game.spawns['ADC_Awesome2'].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'repairer', harvesting: true});
                         console.log('W2N7 Spawning new repairer: ' + newName);
                     }
                     else {
@@ -187,15 +191,22 @@ var MyRoom = {
                         console.log('W2N7 Builders: ' + builders.length);
                 
                         if(builders.length < 4) {
-                            var newName = Game.spawns['ADC_Awesome2'].createCreep([WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'builder', harvesting: true});
+                            var newName = Game.spawns['ADC_Awesome2'].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'builder', harvesting: true});
                             console.log('W2N7 Spawning new builder: ' + newName);
                         } else {
                             var towerHarvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'towerHarvester' && creep.room.name == 'W2N7');
                             console.log('W2N7 TowerHarvesters: ' + towerHarvesters.length);
                             if (towerHarvesters.length < 4) {
-                                var newName = Game.spawns['ADC_Awesome2'].createCreep([WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'towerHarvester', harvesting: true});
+                                var newName = Game.spawns['ADC_Awesome2'].createCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE], undefined, {role: 'towerHarvester', harvesting: true});
                                 console.log('W2N7 Spawning new TowerHarvesters: ' + newName);
-                            }/*
+                            }
+                            else {
+                                if(upgraders.length >= 4) {
+                                    var newName = Game.spawns['ADC_Awesome2'].createCreep([WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'upgrader', harvesting: true});
+                                    console.log('W2N7 Spawning new upgrader: ' + newName);
+                                }
+                            }
+                            /*
                             else {
                                 var claimers = _.filter(Game.creeps, (creep) => creep.memory.role == 'claimer' && creep.room.name == 'W2N7');
                                 console.log('Claimers: ' + claimers.length);
