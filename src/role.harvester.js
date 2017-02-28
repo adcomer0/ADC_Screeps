@@ -23,7 +23,7 @@ var roleHarvester = {
                 if(creep.harvest(target) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(target,{visualizePathStyle: {
                         fill: 'transparent', 
-                        stroke: '#fff', 
+                        stroke: '#ff0', 
                         lineStyle: 'dashed', 
                         strokeWidth: .15, 
                         opacity: .1}});
@@ -32,14 +32,14 @@ var roleHarvester = {
             if (creep.room.name == room2){
                 var target = creep.pos.findClosestByRange(FIND_SOURCES, {
 	                filter: function(object){
-	                    return (object.id === '147e0774762a341');
+	                    return (object.id === '25020774762401f');
 	                }
 	            });
 	        
                 if(creep.harvest(target) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(target,{visualizePathStyle: {
                         fill: 'transparent', 
-                        stroke: '#fff', 
+                        stroke: '#ff0', 
                         lineStyle: 'dashed', 
                         strokeWidth: .15, 
                         opacity: .1}});
@@ -49,14 +49,14 @@ var roleHarvester = {
 	    else {
             var structures = creep.pos.findClosestByRange(FIND_MY_STRUCTURES, {
                 filter: function (object) {
-                    return object.structureType != STRUCTURE_TOWER && object.energy < object.energyCapacity;
+                    return ((object.structureType == STRUCTURE_EXTENSION || object.structureType == STRUCTURE_SPAWN) && object.energy < object.energyCapacity);
                 }
             });
             if(structures){
                 if (creep.transfer(structures, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
                     creep.moveTo(structures,{visualizePathStyle: {
                         fill: 'transparent', 
-                        stroke: '#fff', 
+                        stroke: '#ff0', 
                         lineStyle: 'dashed', 
                         strokeWidth: .15, 
                         opacity: .1}});
@@ -71,7 +71,7 @@ var roleHarvester = {
                     if (creep.transfer(storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE){
                         creep.moveTo(storage,{visualizePathStyle: {
                         fill: 'transparent', 
-                        stroke: '#fff', 
+                        stroke: '#ff0', 
                         lineStyle: 'dashed', 
                         strokeWidth: .15, 
                         opacity: .1}});
