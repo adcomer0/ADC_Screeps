@@ -11,12 +11,12 @@ var roleDefender = require('role.defender');
 var roleAttacker = require('role.attacker');
 var roleClaimer = require('role.claimer');
 var roleLinkCarrier = require('role.linkCarrier');
+var roleMiner = require('role.miner');
+var roleMineCarrier = require('role.mineCarrier');
+//var roleHelpRoomTwo = require('role.helpRoomTwo');
 var MyTowers = require('TowerController');
 var MyLinks = require('LinkController');
-//var roleTowerHarvester = require('role.towerHarvester');
-//var roleClaimer = require('role.claimer');
-//var roleHelpRoomTwo = require('role.helpRoomTwo');
-//var roleMiner = require('role.miner');
+
 
 var MyRoom = {
     room:Room,
@@ -72,18 +72,15 @@ var MyRoom = {
                     case 'linkCarrier':
                         roleLinkCarrier.runRoutine(creep);
                         break;
-                    /*case 'towerHarvester':
-                        roleTowerHarvester.runRoutine(creep);
-                        break;
-                    case 'claimer':
-                        roleClaimer.runRoutine(creep);
-                        break;
-                    case 'helpRoomTwo':
-                        roleHelpRoomTwo.runRoutine(creep);
-                        break;
+                    //case 'helpRoomTwo':
+                    //    roleHelpRoomTwo.runRoutine(creep);
+                    //    break;
                     case 'miner':
                         roleMiner.runRoutine(creep);
-                        break;*/
+                        break;
+                    case 'mineCarrier':
+                        roleMineCarrier.runRoutine(creep);
+                        break;
                     default:
                         break;
                 }
@@ -117,7 +114,7 @@ var MyRoom = {
         if (this.room.name == 'W3N4') {
         var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester' && creep.room.name == 'W3N4');
         console.log('Harvesters: ' + harvesters.length);
-        if(harvesters.length < 1) {
+        if(harvesters.length < 1 || harvesters[0].ticksToLive < 25) {
             /*
                 work: 1, carry: 2, move: 2
             */
@@ -127,13 +124,13 @@ var MyRoom = {
             var harvesters2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester2' && creep.room.name == 'W3N4');
             console.log('Harvesters2: ' + harvesters2.length);
             
-            if (harvesters2.length < 1) {
+            if (harvesters2.length < 1 || harvesters2[0].ticksToLive < 70) {
                 var newName = Game.spawns['ADC_W3N4_1'].createCreep([WORK,WORK,WORK,WORK,WORK,CARRY,MOVE], undefined, {role: 'harvester2', harvesting: true});
                 console.log('Spawning new harvester2: ' + newName);
             } else {
                 var linkCarriers = _.filter(Game.creeps, (creep) => creep.memory.role == 'linkCarrier' && creep.room.name == 'W3N4');
                 console.log('LinkCarriers: ' + linkCarriers.length);
-                if(linkCarriers.length < 1) {
+                if(linkCarriers.length < 1 || linkCarriers[0].ticksToLive < 50) {
                     /*
                         work: 1, carry: 2, move: 2
                     */
@@ -163,6 +160,18 @@ var MyRoom = {
                                 */
                                 var newName = Game.spawns['ADC_W3N4_1'].createCreep([MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE,WORK,WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,CARRY], undefined, {role: 'upgrader', harvesting: true});
                                 console.log('Spawning new upgrader: ' + newName);
+                            } else {
+                                var miners = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && creep.room.name == 'W3N4');
+                                console.log('Miners: ' + miners.length);
+                                if(miners.length < 1 || miners[0].ticksToLive < 70){
+                                var newName = Game.spawns['ADC_W3N4_1'].createCreep([WORK,WORK,WORK,WORK,WORK,CARRY,MOVE], undefined, {role: 'miner', harvesting: true});
+                                console.log('Spawning new miner: ' + newName);
+                            } else {
+                                var mineCarriers = _.filter(Game.creeps, (creep) => creep.memory.role == 'mineCarrier' && creep.room.name == 'W3N4');
+                                console.log('MineCarriers: ' + mineCarriers.length);
+                                if(mineCarriers.length < 1){
+                                var newName = Game.spawns['ADC_W3N4_1'].createCreep([CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'mineCarrier', harvesting: true});
+                                console.log('Spawning new mineCarrier: ' + newName);
                             } else {
                                 /*
                                     move: economy/2 * 2, work: economy/2, carry: economy/2 
@@ -214,7 +223,9 @@ var MyRoom = {
                                         }
                                     }
                                 }
-                            }                    
+                            }
+                            }    
+                            }
                     /*else {
                         var towerHarvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'towerHarvester' && creep.room.name == 'W1N7');
                         console.log('TowerHarvesters: ' + towerHarvesters.length);
